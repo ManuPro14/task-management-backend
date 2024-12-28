@@ -58,7 +58,9 @@ cd task-management-backend
 ```
 
 ## Instalación de dependencias
+```bash
 npm install
+```
 
 ## Configuración de variables de entorno
 
@@ -68,15 +70,18 @@ MONGO_URI ---> se encuentra subido en Render
 PORT ---> 3000
 
 ## Ejecutar entorno de desarrollo
-
+```bash
 npm run dev
+```
 
 ## Endpoints Principales
+```bash
 GET | /api/tasks| Obtiene todas las tareas
 GET | /api/tasks/:id| Obtiene una tarea por el id
 POST | /api/tasks| Crear una nueva tarea
 PUT | /api/tasks/:id| Actualiza tarea por id
 DELETE | /api/tasks/:id| Elimina una tarea por id
+```
 
 ## Documentación de la api
 
@@ -89,9 +94,9 @@ Desde esta interfaz se puede explorar los endpoints.
 ## Pruebas
 
 El proyecto cuenta con pruebas unitarias automatizadas con Jest y Supertest
-
+```bash
 npm run test
-
+```
 ## LICENCIA
 
 Este proyecto está bajo la licencia MIT. Puedes usarlo, modificarlo y distribuirlo libremente. 
