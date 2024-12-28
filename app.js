@@ -6,6 +6,10 @@ const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 
+app.get('/', (req, res) => {
+  res.send('Bienvenido a la API de Tareas de la app de ManuBarrios');
+});
+
 // Middlewares
 app.use(cors());
 app.use(express.json());
