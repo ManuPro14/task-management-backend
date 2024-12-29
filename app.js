@@ -3,6 +3,7 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./utils/swagger');
 const taskRoutes = require('./routes/taskRoutes');
+const cors = require('cors');
 
 const app = express();
 
@@ -25,5 +26,12 @@ app.use((err, req, res, next) => {
   const status = err.status || 500;
   res.status(status).json({ message: err.message || 'Error interno del servidor' });
 });
+
+//Configuración de cors
+app.use(cors({
+  origin:"*",
+  methods:["GET,POST,PUT,DELETE"],
+  allowedHeaders:["Content-Type, Authorization"]
+}));
 
 module.exports = app;
