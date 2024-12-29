@@ -3,7 +3,6 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocs = require('./utils/swagger');
 const taskRoutes = require('./routes/taskRoutes');
-const cors = require('cors');
 
 const app = express();
 
@@ -12,7 +11,6 @@ app.get('/', (req, res) => {
 });
 
 // Middlewares
-app.use(cors());
 app.use(express.json());
 
 // Rutas
