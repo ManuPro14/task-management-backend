@@ -83,7 +83,7 @@ exports.deleteTask = async (req, res, next) => {
       return res.status(400).json({ message: 'ID no proporcionado' });
     }
 
-    const task = await Task.findByIdAndDelete(id);
+    const task = await Task.findOneAndDelete({ id });
     if (!task) {
       return res.status(404).json({ message: 'Tarea no encontrada' });
     }
