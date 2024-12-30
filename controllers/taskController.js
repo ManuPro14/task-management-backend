@@ -50,36 +50,27 @@ exports.createTask = async (req, res, next) => {
 // Actualizar una tarea
 exports.updateTask = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    if (!id) {
-      return res.status(400).json({ message: 'ID no proporcionado' });
-    }
+      const allowedUpdates = ['title', 'description', 'completed'];
+      const updates = Object.keys(req.body);
+      const isValidUpdate = updates.every((key) => allowedUpdates.includes(key));
 
-    const allowedUpdates = ['title', 'description', 'completed'];
-    const updates = Object.keys(req.body);
-    const isValidUpdate = updates.every((key) => allowedUpdates.includes(key));
+      if (!isValidUpdate) {
+          return res.status(400).json({ message: 'Actualización no válida' });
+      }
 
-    if (!isValidUpdate) {
-      return res.status(400).json({ message: 'Actualización no válida' });
-    }
+      const task = await Task.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body }, 
+          { new: true }
+      );
 
-    if (updates.length === 0) {
-      return res.status(400).json({ message: 'No se proporcionaron datos para actualizar' });
-    }
+      if (!task) {
+          return res.status(404).json({ message: 'Tarea no encontrada' });
+      }
 
-    const task = await Task.findByIdAndUpdate(
-      id,
-      { $set: req.body },
-      { new: true }
-    );
-
-    if (!task) {
-      return res.status(404).json({ message: 'Tarea no encontrada' });
-    }
-
-    res.status(200).json(task);
+      res.status(200).json(task);
   } catch (error) {
-    next(new CustomError('Error al actualizar la tarea', error.status || 500));
+      next(new CustomError('Error al actualizar la tarea', error.status || 500));
   }
 };
 
