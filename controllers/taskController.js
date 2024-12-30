@@ -17,9 +17,19 @@ exports.getTasks = async (req, res, next) => {
 // Obtener una tarea por ID
 exports.getTaskById = async (req, res, next) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: 'ID no proporcionado' });
+    }
+    
+    const task = await Task.findById(id);
+    if (!task) {
+      return res.status(404).json({ message: 'Tarea no encontrada' });
+    }
+
     res.status(200).json(task);
   } catch (error) {
+    console.error('Error al obtener la tarea por ID:', error);
     next(new CustomError('Error al obtener la tarea', error.status || 500));
   }
 };
