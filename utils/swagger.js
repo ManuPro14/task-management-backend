@@ -10,8 +10,11 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: 'https://task-management-backend-qult.onrender.com',
       },
+      {
+        url: 'http://localhost:3000',
+      }
     ],
   },
   apis: ['./routes/*.js'],
