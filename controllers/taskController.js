@@ -42,7 +42,12 @@ exports.createTask = async (req, res, next) => {
 // Actualizar una tarea
 exports.updateTask = async (req, res, next) => {
   try {
-    const allowedUpdates = ['title', 'description', 'completed']; 
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: 'ID no proporcionado' });
+    }
+
+    const allowedUpdates = ['title', 'description', 'completed'];
     const updates = Object.keys(req.body);
     const isValidUpdate = updates.every((key) => allowedUpdates.includes(key));
 
@@ -50,9 +55,13 @@ exports.updateTask = async (req, res, next) => {
       return res.status(400).json({ message: 'Actualización no válida' });
     }
 
+    if (updates.length === 0) {
+      return res.status(400).json({ message: 'No se proporcionaron datos para actualizar' });
+    }
+
     const task = await Task.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body }, 
+      id,
+      { $set: req.body },
       { new: true }
     );
 
@@ -69,8 +78,17 @@ exports.updateTask = async (req, res, next) => {
 // Eliminar una tarea
 exports.deleteTask = async (req, res, next) => {
   try {
-    const task = await Task.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: 'Tarea eliminada' });
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: 'ID no proporcionado' });
+    }
+
+    const task = await Task.findByIdAndDelete(id);
+    if (!task) {
+      return res.status(404).json({ message: 'Tarea no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Tarea eliminada exitosamente' });
   } catch (error) {
     next(new CustomError('Error al eliminar la tarea', error.status || 500));
   }
