@@ -6,11 +6,21 @@ const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 
+// Mensaje de bienvenida
 app.get('/', (req, res) => {
   res.send('Bienvenido a la API de Tareas de la app de ManuBarrios');
 });
 
 // Middlewares
+
+// Configuración de CORS
+app.use(cors({
+  origin: '*', // Permitir todos los orígenes (ajusta esto en producción)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'accept'], // Cabeceras permitidas
+}));
+
+// Middleware para procesar JSON
 app.use(express.json());
 
 // Rutas
@@ -24,12 +34,5 @@ app.use((err, req, res, next) => {
   const status = err.status || 500;
   res.status(status).json({ message: err.message || 'Error interno del servidor' });
 });
-
-//Configuración de cors
-app.use(cors({
-  origin:"*",
-  methods:["GET,POST,PUT,DELETE"],
-  allowedHeaders:["Content-Type", "accept"]
-}));
 
 module.exports = app;

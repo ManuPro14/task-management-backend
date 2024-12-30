@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Esquema para manejar el contador del ID
 const counterSchema = new mongoose.Schema({
   _id: {
-    type: String,
+    type: Number,
     required: true,
   },
   seq: {
