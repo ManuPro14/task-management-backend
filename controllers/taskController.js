@@ -50,27 +50,28 @@ exports.createTask = async (req, res, next) => {
 // Actualizar una tarea
 exports.updateTask = async (req, res, next) => {
   try {
-      const allowedUpdates = ['title', 'description', 'completed'];
-      const updates = Object.keys(req.body);
-      const isValidUpdate = updates.every((key) => allowedUpdates.includes(key));
+    const allowedUpdates = ['title', 'description', 'completed'];
+    const updates = Object.keys(req.body);
+    const isValidUpdate = updates.every((key) => allowedUpdates.includes(key));
 
-      if (!isValidUpdate) {
-          return res.status(400).json({ message: 'Actualización no válida' });
-      }
+    if (!isValidUpdate) {
+      return res.status(400).json({ message: 'Actualización no válida' });
+    }
 
-      const task = await Task.findByIdAndUpdate(
-          req.params.id,
-          { $set: req.body }, 
-          { new: true }
-      );
+    const task = await Task.findOneAndUpdate(
+      { id: req.params.id }, 
+      { $set: req.body },
+      { new: true } 
+    );
 
-      if (!task) {
-          return res.status(404).json({ message: 'Tarea no encontrada' });
-      }
+    if (!task) {
+      return res.status(404).json({ message: 'Tarea no encontrada' });
+    }
 
-      res.status(200).json(task);
+    res.status(200).json(task);
   } catch (error) {
-      next(new CustomError('Error al actualizar la tarea', error.status || 500));
+    console.error('Error al actualizar la tarea:', error);
+    next(new CustomError('Error al actualizar la tarea', 500));
   }
 };
 

@@ -23,7 +23,7 @@ const validateUpdateTask = [
     .optional()
     .isString()
     .withMessage('La descripción debe ser un texto'),
-  body('status')
+  body('completed')
     .optional()
     .isBoolean()
     .withMessage('El estado debe ser un valor booleano'),
