@@ -44,7 +44,7 @@ module.exports = router;
  *       type: object
  *       properties:
  *         id:
- *           type: string
+ *           type: number
  *           description: ID único de la tarea
  *         title:
  *           type: string

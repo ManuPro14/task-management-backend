@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Esquema para manejar el contador del ID
 const counterSchema = new mongoose.Schema({
   _id: {
-    type: Number,
+    type: String,
     required: true,
   },
   seq: {
@@ -28,10 +28,9 @@ const taskSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  status: {
-    type: String,
-    enum: ['Pendiente', 'En proceso', 'Terminada'],
-    default: 'Pendiente',
+  completed: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,

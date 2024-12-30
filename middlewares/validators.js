@@ -1,6 +1,6 @@
-const {body,param}= require('express-validator');
+const { body, param } = require('express-validator');
 
-//validación para creear una tarea
+// Validación para crear una tarea
 const validateCreateTask = [
   body('title')
     .notEmpty()
@@ -10,10 +10,10 @@ const validateCreateTask = [
   body('description')
     .optional()
     .isString()
-    .withMessage('La descripción debe ser un texto'),  
-]
+    .withMessage('La descripción debe ser un texto'),
+];
 
-//validacón para actualizar una tarea
+// Validación para actualizar una tarea
 const validateUpdateTask = [
   body('title')
     .optional()
@@ -26,18 +26,18 @@ const validateUpdateTask = [
   body('status')
     .optional()
     .isBoolean()
-    .withMessage('El estado debe ser un valor booleano') 
-]
+    .withMessage('El estado debe ser un valor booleano'),
+];
 
-//validación para id en rutas
+// Validación para el `id` en rutas
 const validateTaskId = [
   param('id')
-    .isMongoId()
-    .withMessage('El id no es válido')
-]
+    .isNumeric()
+    .withMessage('El id debe ser un número'),
+];
 
 module.exports = {
   validateCreateTask,
   validateUpdateTask,
-  validateTaskId
-}
+  validateTaskId,
+};
