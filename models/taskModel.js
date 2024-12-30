@@ -19,6 +19,7 @@ const taskSchema = new mongoose.Schema({
   id: {
     type: Number,
     unique: true,
+    default: 1,
   },
   title: {
     type: String,
@@ -40,21 +41,11 @@ const taskSchema = new mongoose.Schema({
 
 // Middleware para generar automáticamente el ID
 taskSchema.pre('save', async function (next) {
-  if (!this.isNew) {
-    return next();
+  if (!this.id) {
+    const lastTask = await mongoose.model('Task').findOne().sort({ id: -1 });
+    this.id = lastTask ? lastTask.id + 1 : 1;
   }
-
-  try {
-    const counter = await Counter.findByIdAndUpdate(
-      { _id: 'taskId' },
-      { $inc: { seq: 1 } },
-      { new: true, upsert: true }
-    );
-    this.id = counter.seq;
-    next();
-  } catch (error) {
-    next(error);
-  }
+  next();
 });
 
 module.exports = mongoose.model('Task', taskSchema);
